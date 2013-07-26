@@ -3,8 +3,6 @@ package classfileparser;
 import java.io.DataInputStream;
 import java.io.IOException;
 
-import com.sun.org.apache.bcel.internal.classfile.ConstantLong;
-
 public class AttributeReader
 {
     private DataInputStream dis = null;
@@ -27,13 +25,13 @@ public class AttributeReader
         {
             String attributeName = constantPoolLookUp.lookUp( ByteReader.read_u2( dis ) );
             int length = ByteReader.read_u4( dis );
-            String attrInfo = info + "Attribute: " + ( i + 1 ) + "$$";
+            String attrInfo = info + "Attribute:" + ( i + 1 ) + "$$";
             System.out.println( attrInfo + " Name:" + attributeName + " Length:" + length );
-            read( attrInfo, attributeName );
+            read( attrInfo, attributeName, length );
         }
     }
 
-    public void read( String info, String attributeName ) throws Exception
+    public void read( String info, String attributeName, long length ) throws Exception
     {
         if ( Attributes.CODE.equalsIgnoreCase( attributeName ) )
         {
@@ -87,7 +85,92 @@ public class AttributeReader
         int numberOfEntries = ByteReader.read_u2( dis );
         for ( int i = 0; i < numberOfEntries; i++ )
         {
-            
+            int frame_type = ByteReader.read_u1( dis );
+            if ( frame_type >= 0 && frame_type <= 63 )
+            {
+                System.out.println( info + " Stack Frame Type:" + "SAME" );
+            }
+            else if ( frame_type >= 64 && frame_type <= 127 )
+            {
+                System.out.println( info + " Stack Frame Type: " + "SAME_LOCALS_1_STACK_ITEM" );
+                readVerificationInfoType( info + "SAME_LOCALS_1_STACK_ITEM$$ " );
+            }
+            else if ( frame_type == 247 )
+            {
+                System.out.println( info + " Stack Frame Type: " + "SAME_LOCALS_1_STACK_ITEM_EXTENDED" );
+                System.out.println( info + " Offset Delta: " + ByteReader.read_u2( dis ) );
+                readVerificationInfoType( info + "SAME_LOCALS_1_STACK_ITEM_EXTENDED$$ " );
+            }
+            else if ( frame_type >= 248 && frame_type <= 250 )
+            {
+                System.out.println( info + " Stack Frame Type: " + "CHOP" );
+                System.out.println( info + " Offset Delta: " + ByteReader.read_u2( dis ) );
+            }
+            else if ( frame_type == 251 )
+            {
+                System.out.println( info + " Stack Frame Type: " + "SAME_FRAME_EXTENDED" );
+                System.out.println( info + " Offset Delta: " + ByteReader.read_u2( dis ) );
+            }
+            else if ( frame_type >= 252 && frame_type <= 254 )
+            {
+                System.out.println( info + " Stack Frame Type: " + "APPEND" );
+                System.out.println( info + " Offset Delta: " + ByteReader.read_u2( dis ) );
+                for ( int j = 0; j < ( frame_type - 251 ); j++ )
+                {
+                    readVerificationInfoType( info + "APPEND$$ " );
+                }
+            }
+            else if ( frame_type == 255 )
+            {
+                System.out.println( info + " Stack Frame Type: " + "FULL_FRAME" );
+                System.out.println( info + " Offset Delta: " + ByteReader.read_u2( dis ) );
+                int numberOfLocals = ByteReader.read_u2( dis );
+                for ( int k = 0; k < numberOfLocals; k++ )
+                {
+                    readVerificationInfoType( info + "FULL_FRAME Locals$$ " );
+                }
+                int numberOfStackItems = ByteReader.read_u2( dis );
+                for ( int l = 0; l < numberOfStackItems; l++ )
+                {
+                    readVerificationInfoType( info + "FULL_FRAME Stack$$ " );
+                }
+            }
+
+        }
+    }
+
+    private void readVerificationInfoType( String info ) throws Exception
+    {
+        int verification_type_info = ByteReader.read_u1( dis );
+        switch ( verification_type_info )
+        {
+            case 0:
+                System.out.println( info + " Verification Type Info: " + " ITEM_Top" );
+                break;
+            case 1:
+                System.out.println( info + " Verification Type Info: " + " ITEM_Integer" );
+                break;
+            case 2:
+                System.out.println( info + " Verification Type Info: " + "ITEM_Float" );
+                break;
+            case 3:
+                System.out.println( info + " Verification Type Info: " + " ITEM_Double" );
+                break;
+            case 4:
+                System.out.println( info + " Verification Type Info: " + " ITEM_Long" );
+                break;
+            case 5:
+                System.out.println( info + " Verification Type Info: " + " ITEM_Null" );
+                break;
+            case 6:
+                System.out.println( info + " Verification Type Info: " + " ITEM_UninitializedThis" );
+                break;
+            case 7:
+                System.out.println( info + " Verification Type Info: " + " ITEM_Object:" + constantPoolLookUp.lookUp( ByteReader.read_u2( dis ) ) );
+                break;
+            case 8:
+                System.out.println( info + " Verification Type Info: " + " ITEM_Uninitialized" );
+                break;
         }
     }
 
@@ -169,7 +252,8 @@ public class AttributeReader
         int exceptionTableLength = ByteReader.read_u2( dis );
         for ( int i = 0; i < exceptionTableLength; i++ )
         {
-            System.out.println( info + "Exception$$ Start_PC:" + ByteReader.read_u2( dis ) + " End_PC:" + ByteReader.read_u2( dis ) + " Handler_PC:" + ByteReader.read_u2( dis ) + " Catch_Type:" + constantPoolLookUp.lookUp( ByteReader.read_u2( dis ) ) );
+            int catchType = ByteReader.read_u2( dis );
+            System.out.println( info + "Exception$$ Start_PC:" + ByteReader.read_u2( dis ) + " End_PC:" + ByteReader.read_u2( dis ) + " Handler_PC:" + ByteReader.read_u2( dis ) + " Catch_Type:" + ( ( catchType > 0 ) ? constantPoolLookUp.lookUp( catchType ) : "" ) );
         }
     }
 
