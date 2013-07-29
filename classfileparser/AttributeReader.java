@@ -2,6 +2,7 @@ package classfileparser;
 
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.util.Formatter;
 
 public class AttributeReader
 {
@@ -18,64 +19,63 @@ public class AttributeReader
         this.constantPoolLookUp = constantPoolLookUp;
     }
 
-    public void readAttributes( String info ) throws Exception
+    public void readAttributes() throws Exception
     {
         int attributeCount = ByteReader.read_u2( dis );
         for ( int i = 0; i < attributeCount; i++ )
         {
             String attributeName = constantPoolLookUp.lookUp( ByteReader.read_u2( dis ) );
             int length = ByteReader.read_u4( dis );
-            String attrInfo = info + "Attribute:" + ( i + 1 ) + "$$";
-            System.out.println( attrInfo + " Name:" + attributeName + " Length:" + length );
-            read( attrInfo, attributeName, length );
+            System.out.println( "\t" + attributeName + " " + length );
+            read( attributeName, length );
         }
     }
 
-    public void read( String info, String attributeName, long length ) throws Exception
+    public void read( String attributeName, long length ) throws Exception
     {
         if ( Attributes.CODE.equalsIgnoreCase( attributeName ) )
         {
-            readCodeAttribute( info );
+            readCodeAttribute();
         }
         else if ( Attributes.CONSTANT_VALUE.equalsIgnoreCase( attributeName ) )
         {
-            readConstantValueAttribute( info );
+            readConstantValueAttribute();
         }
         else if ( Attributes.EXCEPTIONS.equalsIgnoreCase( attributeName ) )
         {
-            readExceptionsAttribute( info );
+            readExceptionsAttribute();
         }
         else if ( Attributes.INNER_CLASS.equalsIgnoreCase( attributeName ) )
         {
-            readInnerClassAttribute( info );
+            readInnerClassAttribute();
         }
         else if ( Attributes.LINE_NUMBER_TABLE.equalsIgnoreCase( attributeName ) )
         {
-            readLineNumberTableAttribute( info );
+            readLineNumberTableAttribute();
         }
         else if ( Attributes.LOCAL_VARIABLE_TABLE.equalsIgnoreCase( attributeName ) )
         {
-            readLocalVariableTableAttribute( info );
+            readLocalVariableTableAttribute();
         }
         else if ( Attributes.LOCAL_VARIABLE_TYPE_TABLE.equalsIgnoreCase( attributeName ) )
         {
-            readLocalVariableTypeTableAttribute( info );
+            readLocalVariableTypeTableAttribute();
         }
         else if ( Attributes.SOURCE_FILE.equalsIgnoreCase( attributeName ) )
         {
-            readSourceFileAttribute( info );
+            readSourceFileAttribute();
         }
         else if ( Attributes.SYNTHETIC.equalsIgnoreCase( attributeName ) )
         {
-            readSyntheticAttribute( info );
+            readSyntheticAttribute();
         }
         else if ( Attributes.SIGNATURE.equalsIgnoreCase( attributeName ) )
         {
-            readSignatureAttribute( info );
+            readSignatureAttribute();
         }
         else if ( Attributes.STACKMAPTABLE.equalsIgnoreCase( attributeName ) )
         {
-            readStackMapTableAttribute( info );
+            readStackMapTableAttribute();
         }
         else
         {
@@ -84,17 +84,24 @@ public class AttributeReader
 
     }
 
-    private void readLocalVariableTypeTableAttribute( String info ) throws Exception
+    private void readLocalVariableTypeTableAttribute() throws Exception
     {
         int localVariableTypeTableLength = ByteReader.read_u2( dis );
+        if ( localVariableTypeTableLength > 0 )
+        {
+            Formatter formatter = new Formatter();
+            System.out.println( "\t\t" + formatter.format( "%-10s %-10s %-30s %-50s %-10s", "Start_PC", "Length", "Name", "Signature", "Index" ) );
+
+        }
         for ( int i = 0; i < localVariableTypeTableLength; i++ )
         {
-            System.out.println( info + " LocalVariableTypeTableInfo$$ " + "Start PC:" + ByteReader.read_u2( dis ) + " Length:" + ByteReader.read_u2( dis ) + " Name:" + constantPoolLookUp.lookUp( ByteReader.read_u2( dis ) ) + " Signature:" + constantPoolLookUp.lookUp( ByteReader.read_u2( dis ) ) + " Index:" + ByteReader.read_u2( dis ) );
+            Formatter formatter = new Formatter();
+            System.out.println( "\t\t" + formatter.format( "%-10s %-10s %-30s %-50s %-10s", ByteReader.read_u2( dis ), ByteReader.read_u2( dis ), constantPoolLookUp.lookUp( ByteReader.read_u2( dis ) ), constantPoolLookUp.lookUp( ByteReader.read_u2( dis ) ), ByteReader.read_u2( dis ) ) );
         }
 
     }
 
-    private void readStackMapTableAttribute( String info ) throws Exception
+    private void readStackMapTableAttribute() throws Exception
     {
         int numberOfEntries = ByteReader.read_u2( dis );
         for ( int i = 0; i < numberOfEntries; i++ )
@@ -102,172 +109,199 @@ public class AttributeReader
             int frame_type = ByteReader.read_u1( dis );
             if ( frame_type >= 0 && frame_type <= 63 )
             {
-                System.out.println( info + " Stack Frame Type:" + "SAME" );
+                System.out.println( "\t\tFrame Type:" + "SAME" );
             }
             else if ( frame_type >= 64 && frame_type <= 127 )
             {
-                System.out.println( info + " Stack Frame Type: " + "SAME_LOCALS_1_STACK_ITEM" );
-                readVerificationInfoType( info + "SAME_LOCALS_1_STACK_ITEM$$ " );
+                System.out.println( "\t\tFrame Type:" + "SAME_LOCALS_1_STACK_ITEM" );
+                readVerificationInfoType();
             }
             else if ( frame_type == 247 )
             {
-                System.out.println( info + " Stack Frame Type: " + "SAME_LOCALS_1_STACK_ITEM_EXTENDED" );
-                System.out.println( info + " Offset Delta: " + ByteReader.read_u2( dis ) );
-                readVerificationInfoType( info + "SAME_LOCALS_1_STACK_ITEM_EXTENDED$$ " );
+                System.out.println( "\t\tFrame Type:" + "SAME_LOCALS_1_STACK_ITEM_EXTENDED" );
+                System.out.println( "\t\tOffset Delta: " + ByteReader.read_u2( dis ) );
+                readVerificationInfoType();
             }
             else if ( frame_type >= 248 && frame_type <= 250 )
             {
-                System.out.println( info + " Stack Frame Type: " + "CHOP" );
-                System.out.println( info + " Offset Delta: " + ByteReader.read_u2( dis ) );
+                System.out.println( "\t\tFrame Type:" + "CHOP" );
+                System.out.println( "\t\tOffset Delta: " + ByteReader.read_u2( dis ) );
             }
             else if ( frame_type == 251 )
             {
-                System.out.println( info + " Stack Frame Type: " + "SAME_FRAME_EXTENDED" );
-                System.out.println( info + " Offset Delta: " + ByteReader.read_u2( dis ) );
+                System.out.println( "\t\tFrame Type:" + "SAME_FRAME_EXTENDED" );
+                System.out.println( "\t\tOffset Delta: " + ByteReader.read_u2( dis ) );
             }
             else if ( frame_type >= 252 && frame_type <= 254 )
             {
-                System.out.println( info + " Stack Frame Type: " + "APPEND" );
-                System.out.println( info + " Offset Delta: " + ByteReader.read_u2( dis ) );
+                System.out.println( "\t\tFrame Type:" + "APPEND" );
+                System.out.println( "\t\tOffset Delta: " + ByteReader.read_u2( dis ) );
                 for ( int j = 0; j < ( frame_type - 251 ); j++ )
                 {
-                    readVerificationInfoType( info + "APPEND$$ " );
+                    readVerificationInfoType();
                 }
             }
             else if ( frame_type == 255 )
             {
-                System.out.println( info + " Stack Frame Type: " + "FULL_FRAME" );
-                System.out.println( info + " Offset Delta: " + ByteReader.read_u2( dis ) );
+                System.out.println( "\t\tFrame Type:" + "FULL_FRAME" );
+                System.out.println( "\t\tOffset Delta: " + ByteReader.read_u2( dis ) );
                 int numberOfLocals = ByteReader.read_u2( dis );
+                System.out.println( "\t\tlocals[" );
                 for ( int k = 0; k < numberOfLocals; k++ )
                 {
-                    readVerificationInfoType( info + "FULL_FRAME Locals$$ " );
+                    readVerificationInfoType();
                 }
+                System.out.println( "\t\t]" );
+                System.out.println( "\t\tstacks[" );
                 int numberOfStackItems = ByteReader.read_u2( dis );
                 for ( int l = 0; l < numberOfStackItems; l++ )
                 {
-                    readVerificationInfoType( info + "FULL_FRAME Stack$$ " );
+                    readVerificationInfoType();
                 }
+                System.out.println( "\t\t]" );
             }
 
         }
     }
 
-    private void readVerificationInfoType( String info ) throws Exception
+    private void readVerificationInfoType() throws Exception
     {
         int verification_type_info = ByteReader.read_u1( dis );
         switch ( verification_type_info )
         {
             case 0:
-                System.out.println( info + " Verification Type Info: " + " ITEM_Top" );
+                System.out.println( "\t\tVerification_Type_Info:" + " ITEM_Top" );
                 break;
             case 1:
-                System.out.println( info + " Verification Type Info: " + " ITEM_Integer" );
+                System.out.println( "\t\tVerification_Type_Info:" + " ITEM_Integer" );
                 break;
             case 2:
-                System.out.println( info + " Verification Type Info: " + "ITEM_Float" );
+                System.out.println( "\t\tVerification_Type_Info:" + "ITEM_Float" );
                 break;
             case 3:
-                System.out.println( info + " Verification Type Info: " + " ITEM_Double" );
+                System.out.println( "\t\tVerification_Type_Info:" + " ITEM_Double" );
                 break;
             case 4:
-                System.out.println( info + " Verification Type Info: " + " ITEM_Long" );
+                System.out.println( "\t\tVerification_Type_Info:" + " ITEM_Long" );
                 break;
             case 5:
-                System.out.println( info + " Verification Type Info: " + " ITEM_Null" );
+                System.out.println( "\t\tVerification_Type_Info:" + " ITEM_Null" );
                 break;
             case 6:
-                System.out.println( info + " Verification Type Info: " + " ITEM_UninitializedThis" );
+                System.out.println( "\t\tVerification_Type_Info:" + " ITEM_UninitializedThis" );
                 break;
             case 7:
-                System.out.println( info + " Verification Type Info: " + " ITEM_Object:" + constantPoolLookUp.lookUp( ByteReader.read_u2( dis ) ) );
+                System.out.println( "\t\tVerification_Type_Info:" + " ITEM_Object:" + constantPoolLookUp.lookUp( ByteReader.read_u2( dis ) ) );
                 break;
             case 8:
-                System.out.println( info + " Verification Type Info: " + " ITEM_Uninitialized" );
+                System.out.println( "\t\tVerification_Type_Info:" + " ITEM_Uninitialized" );
                 break;
         }
     }
 
-    private void readSignatureAttribute( String info ) throws IOException, Exception
+    private void readSignatureAttribute() throws IOException, Exception
     {
-        System.out.println( info + constantPoolLookUp.lookUp( ByteReader.read_u2( dis ) ) );
+        System.out.println( "\t" + constantPoolLookUp.lookUp( ByteReader.read_u2( dis ) ) );
 
     }
 
-    private void readSyntheticAttribute( String info )
+    private void readSyntheticAttribute()
     {
         //Do nothing because the attritube name will be "synthetic"
 
     }
 
-    private void readSourceFileAttribute( String info ) throws Exception
+    private void readSourceFileAttribute() throws Exception
     {
         System.out.println( "Source File:" + constantPoolLookUp.lookUp( ByteReader.read_u2( dis ) ) );
 
     }
 
-    private void readLocalVariableTableAttribute( String info ) throws Exception
+    private void readLocalVariableTableAttribute() throws Exception
     {
         int localVariableTableLength = ByteReader.read_u2( dis );
+        if ( localVariableTableLength > 0 )
+        {
+            Formatter formatter = new Formatter();
+            System.out.println( "\t\t" + formatter.format( "%-10s %-10s %-30s %-50s %-10s", "Start_PC", "Length", "Name", "Description", "Index" ) );
+
+        }
         for ( int i = 0; i < localVariableTableLength; i++ )
         {
-            System.out.println( info + " LocalVariableTableInfo$$ " + "Start PC:" + ByteReader.read_u2( dis ) + " Length:" + ByteReader.read_u2( dis ) + " Name:" + constantPoolLookUp.lookUp( ByteReader.read_u2( dis ) ) + " Description:" + constantPoolLookUp.lookUp( ByteReader.read_u2( dis ) ) + " Index:" + ByteReader.read_u2( dis ) );
+            Formatter formatter = new Formatter();
+            System.out.println( "\t\t" + formatter.format( "%-10s %-10s %-30s %-50s %-10s", ByteReader.read_u2( dis ), ByteReader.read_u2( dis ), constantPoolLookUp.lookUp( ByteReader.read_u2( dis ) ), constantPoolLookUp.lookUp( ByteReader.read_u2( dis ) ), ByteReader.read_u2( dis ) ) );
         }
     }
 
-    private void readLineNumberTableAttribute( String info ) throws IOException
+    private void readLineNumberTableAttribute() throws IOException
     {
         int lineNumberTableLength = ByteReader.read_u2( dis );
+        if ( lineNumberTableLength > 0 )
+        {
+            Formatter formatter = new Formatter();
+            System.out.println( "\t\t" + formatter.format( "%-10s %-10s", "Start_PC", "LineNumber" ) );
+
+        }
         for ( int i = 0; i < lineNumberTableLength; i++ )
         {
-            System.out.println( info + " LineNumberTableInfo$$ " + "Start PC:" + ByteReader.read_u2( dis ) + " Line Number:" + ByteReader.read_u2( dis ) );
+            Formatter formatter = new Formatter();
+            System.out.println( "\t\t" + formatter.format( "%-10s %-10s", ByteReader.read_u2( dis ), ByteReader.read_u2( dis ) ) );
         }
 
     }
 
-    private void readInnerClassAttribute( String info ) throws Exception
+    private void readInnerClassAttribute() throws Exception
     {
         throw new Exception( "Unimplemented Method" );
 
     }
 
-    private void readExceptionsAttribute( String info ) throws Exception
+    private void readExceptionsAttribute() throws Exception
     {
         int noOfExceptions = ByteReader.read_u2( dis );
+        System.out.println( "\t\tExceptions" );
         for ( int i = 0; i < noOfExceptions; i++ )
         {
-            System.out.println( info + "Exception $$" + constantPoolLookUp.lookUp( ByteReader.read_u2( dis ) ) );
+            System.out.println( "\t\t" + constantPoolLookUp.lookUp( ByteReader.read_u2( dis ) ) );
         }
 
     }
 
-    private void readConstantValueAttribute( String info ) throws IOException, Exception
+    private void readConstantValueAttribute() throws IOException, Exception
     {
         System.out.println( "Constant Value:" + constantPoolLookUp.lookUp( ByteReader.read_u2( dis ) ) );
     }
 
-    private void readCodeAttribute( String info ) throws Exception
+    private void readCodeAttribute() throws Exception
     {
-        System.out.println( info + "Max Stack:" + ByteReader.read_u2( dis ) );
-        System.out.println( info + "Max Locals:" + ByteReader.read_u2( dis ) );
+        System.out.println( "\t\tMax Stack:" + ByteReader.read_u2( dis ) );
+        System.out.println( "\t\tMax Locals:" + ByteReader.read_u2( dis ) );
         int codeLength = ByteReader.read_u4( dis );
         String bytecode = " ";
         for ( int i = 0; i < codeLength; i++ )
         {
             bytecode += Integer.toHexString( ByteReader.read_u1( dis ) );
         }
-        System.out.println( info + "Method Byte Code:" + bytecode );
-        readException( info );
-        readAttributes( info );
+        System.out.println( "\t\tMethod Byte Code:" + bytecode );
+        readException();
+        readAttributes();
     }
 
-    private void readException( String info ) throws Exception
+    private void readException() throws Exception
     {
         int exceptionTableLength = ByteReader.read_u2( dis );
+        System.out.println( "\t\tException:" );
+        if ( exceptionTableLength > 0 )
+        {
+            Formatter formatter = new Formatter();
+            System.out.println( "\t\t" + formatter.format( "%-10s %-10s %-10s %-10s", "Start_PC", "End_PC", "Handler_PC", "Catch_Type" ) );
+
+        }
         for ( int i = 0; i < exceptionTableLength; i++ )
         {
             int catchType = ByteReader.read_u2( dis );
-            System.out.println( info + "Exception$$ Start_PC:" + ByteReader.read_u2( dis ) + " End_PC:" + ByteReader.read_u2( dis ) + " Handler_PC:" + ByteReader.read_u2( dis ) + " Catch_Type:" + ( ( catchType > 0 ) ? constantPoolLookUp.lookUp( catchType ) : "" ) );
+            Formatter formatter = new Formatter();
+            System.out.println( "\t\t" + formatter.format( "%-10s %-10s %-10s %-10s", ByteReader.read_u2( dis ), ByteReader.read_u2( dis ), ByteReader.read_u2( dis ), ( ( catchType > 0 ) ? constantPoolLookUp.lookUp( catchType ) : "any" ) ) );
         }
     }
 

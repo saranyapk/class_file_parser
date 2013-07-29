@@ -99,7 +99,7 @@ public class ConstantPoolReader
     {
         Integer const_integer = dis.readInt();
         constantPoolLookUp.put( i, ConstantPoolType.CONSTANT_Integer, const_integer );
-        System.out.println( i + " " + const_integer );
+        System.out.println( i + "  " + const_integer );
 
     }
 
@@ -107,7 +107,7 @@ public class ConstantPoolReader
     {
         Float const_float = dis.readFloat();
         constantPoolLookUp.put( i, ConstantPoolType.CONSTANT_Float, const_float );
-        System.out.println( i + " " + const_float );
+        System.out.println( i + "  " + const_float );
 
     }
 
@@ -115,7 +115,7 @@ public class ConstantPoolReader
     {
         Long const_long = dis.readLong();
         constantPoolLookUp.put( i, ConstantPoolType.CONSTANT_Long, const_long );
-        System.out.println( i + " " + const_long );
+        System.out.println( i + "  " + const_long );
         //These values consume two entries in constant_pool table. Hence the index of the next item will be two more than the current entry
 
     }
@@ -124,7 +124,7 @@ public class ConstantPoolReader
     {
         Double const_double = dis.readDouble();
         constantPoolLookUp.put( i, ConstantPoolType.CONSTANT_Long, const_double );
-        System.out.println( i + " " + const_double );
+        System.out.println( i + "  " + const_double );
 
     }
 
@@ -132,7 +132,7 @@ public class ConstantPoolReader
     {
         int class_info = ByteReader.read_u2( dis );
         constantPoolLookUp.put( i, ConstantPoolType.CONSTANT_Class, class_info );
-        System.out.println( i + " " + class_info );
+        System.out.println( i + "  " + class_info );
 
     }
 
@@ -140,7 +140,7 @@ public class ConstantPoolReader
     {
         int string_info = ByteReader.read_u2( dis );
         constantPoolLookUp.put( i, ConstantPoolType.CONSTANT_String, string_info );
-        System.out.println( i + " " + string_info );
+        System.out.println( i + "  " + string_info );
 
     }
 
@@ -148,7 +148,7 @@ public class ConstantPoolReader
     {
         String field_ref_info = ByteReader.read_u2( dis ) + ClassFileParser.TAG_SEPARATOR + ByteReader.read_u2( dis );
         constantPoolLookUp.put( i, ConstantPoolType.CONSTANT_Fieldref, field_ref_info );
-        System.out.println( i + " " + field_ref_info );
+        System.out.println( i + "  " + field_ref_info );
 
     }
 
@@ -156,14 +156,14 @@ public class ConstantPoolReader
     {
         String method_ref_info = ByteReader.read_u2( dis ) + ClassFileParser.TAG_SEPARATOR + ByteReader.read_u2( dis );
         constantPoolLookUp.put( i, ConstantPoolType.CONSTANT_Methodref, method_ref_info );
-        System.out.println( i + " " + method_ref_info );
+        System.out.println( i + "  " + method_ref_info );
     }
 
     private void readConstantIntfMethodRefInfo() throws IOException
     {
         String intf_method_ref_info = ByteReader.read_u2( dis ) + ClassFileParser.TAG_SEPARATOR + ByteReader.read_u2( dis );
         constantPoolLookUp.put( i, ConstantPoolType.CONSTANT_InterfaceMethodref, intf_method_ref_info );
-        System.out.println( i + " " + intf_method_ref_info );
+        System.out.println( i + "  " + intf_method_ref_info );
 
     }
 
@@ -171,7 +171,7 @@ public class ConstantPoolReader
     {
         String name_type_info = ByteReader.read_u2( dis ) + ClassFileParser.TAG_SEPARATOR + ByteReader.read_u2( dis );
         constantPoolLookUp.put( i, ConstantPoolType.CONSTANT_NameAndType, name_type_info );
-        System.out.println( i + " " + name_type_info );
+        System.out.println( i + "  " + name_type_info );
     }
 
 }

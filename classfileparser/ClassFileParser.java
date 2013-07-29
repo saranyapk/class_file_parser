@@ -50,7 +50,7 @@ public class ClassFileParser
 
             readMethods();
 
-            attributeReader.readAttributes( "Class$$" );
+            attributeReader.readAttributes();
 
         }
         catch ( FileNotFoundException e )
@@ -88,14 +88,11 @@ public class ClassFileParser
     {
         int fieldCount = ByteReader.read_u2( dis );
         System.out.println( "Fields:" );
-        String fieldInfo = "";
         for ( int i = 0; i < fieldCount; i++ )
         {
-            fieldInfo = "Field:" + ( i + 1 ) + "$$ ";
-            System.out.println( fieldInfo + "Access Modifier:" + readAccessFlag() );
-            System.out.println( fieldInfo + "Name:" + constantPoolLookUp.lookUp( ByteReader.read_u2( dis ) ) );
-            System.out.println( fieldInfo + "Description:" + constantPoolLookUp.lookUp( ByteReader.read_u2( dis ) ) );
-            attributeReader.readAttributes( fieldInfo );
+            System.out.println( readAccessFlag() + " " + constantPoolLookUp.lookUp( ByteReader.read_u2( dis ) ) + " " + constantPoolLookUp.lookUp( ByteReader.read_u2( dis ) ) );
+            attributeReader.readAttributes();
+            System.out.println( "\n" );
         }
 
     }
@@ -104,16 +101,11 @@ public class ClassFileParser
     {
         int methodCount = ByteReader.read_u2( dis );
         System.out.println( "Methods:" );
-        String methodInfo = "";
         for ( int i = 0; i < methodCount; i++ )
         {
-            methodInfo = "Method:" + ( i + 1 ) + "$$ ";
-            System.out.println( methodInfo + "Access Modifier:" + readAccessFlag() );
-            System.out.println( methodInfo + "Name:" + constantPoolLookUp.lookUp( ByteReader.read_u2( dis ) ) );
-            System.out.println( methodInfo + "Description:" + constantPoolLookUp.lookUp( ByteReader.read_u2( dis ) ) );
-
-            attributeReader.readAttributes( methodInfo );
-
+            System.out.println( readAccessFlag() + " " + constantPoolLookUp.lookUp( ByteReader.read_u2( dis ) ) + " " + constantPoolLookUp.lookUp( ByteReader.read_u2( dis ) ) );
+            attributeReader.readAttributes();
+            System.out.println( "\n" );
         }
 
     }
@@ -151,19 +143,19 @@ public class ClassFileParser
 
         if ( ( accessFlag & AccessFlag.ACC_PUBLIC ) != 0 )
         {
-            accessInfo += " Public ";
+            accessInfo += " public ";
         }
         if ( ( accessFlag & AccessFlag.ACC_ABSTRACT ) != 0 )
         {
-            accessInfo += " Abstract ";
+            accessInfo += " abstract ";
         }
         if ( ( accessFlag & AccessFlag.ACC_FINAL ) != 0 )
         {
-            accessInfo += " Final ";
+            accessInfo += " final ";
         }
         if ( ( accessFlag & AccessFlag.ACC_INTERFACE ) != 0 )
         {
-            accessInfo += " Interface ";
+            accessInfo += " interface ";
         }
         if ( ( accessFlag & AccessFlag.ACC_SUPER ) != 0 )
         {
@@ -171,19 +163,19 @@ public class ClassFileParser
         }
         if ( ( accessFlag & AccessFlag.ACC_PRIVATE ) != 0 )
         {
-            accessInfo += " Private ";
+            accessInfo += " private ";
         }
         if ( ( accessFlag & AccessFlag.ACC_PROTECTED ) != 0 )
         {
-            accessInfo += " Protected ";
+            accessInfo += " protected ";
         }
         if ( ( accessFlag & AccessFlag.ACC_VOLATILE ) != 0 )
         {
-            accessInfo += " Volatile ";
+            accessInfo += " volatile ";
         }
         if ( ( accessFlag & AccessFlag.ACC_TRANSIENT ) != 0 )
         {
-            accessInfo += " Transient ";
+            accessInfo += " transient ";
         }
 
         return accessInfo;
