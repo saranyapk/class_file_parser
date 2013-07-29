@@ -57,6 +57,10 @@ public class AttributeReader
         {
             readLocalVariableTableAttribute( info );
         }
+        else if ( Attributes.LOCAL_VARIABLE_TYPE_TABLE.equalsIgnoreCase( attributeName ) )
+        {
+            readLocalVariableTypeTableAttribute( info );
+        }
         else if ( Attributes.SOURCE_FILE.equalsIgnoreCase( attributeName ) )
         {
             readSourceFileAttribute( info );
@@ -76,6 +80,16 @@ public class AttributeReader
         else
         {
             throw new Exception( "Attribute Impl NOT found:" + attributeName );
+        }
+
+    }
+
+    private void readLocalVariableTypeTableAttribute( String info ) throws Exception
+    {
+        int localVariableTypeTableLength = ByteReader.read_u2( dis );
+        for ( int i = 0; i < localVariableTypeTableLength; i++ )
+        {
+            System.out.println( info + " LocalVariableTypeTableInfo$$ " + "Start PC:" + ByteReader.read_u2( dis ) + " Length:" + ByteReader.read_u2( dis ) + " Name:" + constantPoolLookUp.lookUp( ByteReader.read_u2( dis ) ) + " Signature:" + constantPoolLookUp.lookUp( ByteReader.read_u2( dis ) ) + " Index:" + ByteReader.read_u2( dis ) );
         }
 
     }
