@@ -8,15 +8,18 @@ public class AttributeReader
 {
     private DataInputStream dis = null;
     private ConstantPoolLookUp constantPoolLookUp = null;
+    private MethodDecoder methodDecoder = new MethodDecoder();
 
     public void setDis( DataInputStream dis )
     {
         this.dis = dis;
+        methodDecoder.setDis( dis );
     }
 
     public void setConstantPoolLookUp( ConstantPoolLookUp constantPoolLookUp )
     {
         this.constantPoolLookUp = constantPoolLookUp;
+        methodDecoder.setConstantPoolLookUp( constantPoolLookUp );
     }
 
     public void readAttributes() throws Exception
@@ -276,13 +279,7 @@ public class AttributeReader
     {
         System.out.println( "\t\tMax Stack:" + ByteReader.read_u2( dis ) );
         System.out.println( "\t\tMax Locals:" + ByteReader.read_u2( dis ) );
-        int codeLength = ByteReader.read_u4( dis );
-        String bytecode = " ";
-        for ( int i = 0; i < codeLength; i++ )
-        {
-            bytecode += Integer.toHexString( ByteReader.read_u1( dis ) );
-        }
-        System.out.println( "\t\tMethod Byte Code:" + bytecode );
+        methodDecoder.readMethodCode();
         readException();
         readAttributes();
     }
