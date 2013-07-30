@@ -79,6 +79,7 @@ public interface Opcodes
     public static final int BIPUSH = 16;
     public static final int SIPUSH = 17;
     public static final int LDC = 18;
+    public static final int LDC_W = 19;
     public static final int ILOAD = 21;
     public static final int iload_0 = 26; //(0x1a)
     public static final int iload_1 = 27; //(0x1b)
@@ -114,6 +115,10 @@ public interface Opcodes
     public static final int istore_2 = 61;//(0x3d)
     public static final int istore_3 = 62;//(0x3e) 
     public static final int LSTORE = 55;
+    public static final int lstore_0 = 63;//(0x3b)
+    public static final int lstore_1 = 64;//(0x3c)
+    public static final int lstore_2 = 65;//(0x3d)
+    public static final int lstore_3 = 66;//(0x3e) 
     public static final int FSTORE = 56;
     public static final int fstore_0 = 67; //(0x43)
     public static final int fstore_1 = 68; //(0x44)

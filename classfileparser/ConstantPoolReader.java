@@ -138,9 +138,9 @@ public class ConstantPoolReader
 
     private void readConstantStringInfo() throws IOException
     {
-        int string_info = ByteReader.read_u2( dis );
-        constantPoolLookUp.put( i, ConstantPoolType.CONSTANT_String, string_info );
-        System.out.println( i + "  " + string_info );
+        Integer string_info = ByteReader.read_u2( dis );
+        constantPoolLookUp.put( i, ConstantPoolType.CONSTANT_String, string_info.toString() );
+        System.out.println( i + "  " + string_info.toString() );
 
     }
 

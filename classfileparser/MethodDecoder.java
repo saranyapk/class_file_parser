@@ -254,7 +254,6 @@ public class MethodDecoder
         {
             System.out.println( "\t\t" + pc + " " + "f2l" );
         }
-
         else if ( opcode.equals( Opcodes.FADD ) )
         {
             System.out.println( "\t\t" + pc + " " + "fadd" );
@@ -357,12 +356,117 @@ public class MethodDecoder
         }
         else if ( opcode.equals( Opcodes.GOTO ) )
         {
-            System.out.println( "\t\t" + pc + " " + "goto " + constantPoolLookUp.lookUp( getDoubleIndex() ) );
+            System.out.println( "\t\t" + pc + " " + "goto " + getDoubleIndex() );
         }
         else if ( opcode.equals( Opcodes.goto_w ) )
         {
-            System.out.println( "\t\t" + pc + " " + "goto " + constantPoolLookUp.lookUp( getIndexWithFourBytes() ) );
+            System.out.println( "\t\t" + pc + " " + "goto_w " + constantPoolLookUp.lookUp( getIndexWithFourBytes() ) );
         }
+        else if ( opcode.equals( Opcodes.I2B ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "i2b" );
+        }
+        else if ( opcode.equals( Opcodes.I2C ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "i2c" );
+        }
+        else if ( opcode.equals( Opcodes.I2D ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "i2d" );
+        }
+        else if ( opcode.equals( Opcodes.I2F ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "i2f" );
+        }
+        else if ( opcode.equals( Opcodes.I2L ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "i2l" );
+        }
+        else if ( opcode.equals( Opcodes.I2S ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "i2s" );
+        }
+        else if ( opcode.equals( Opcodes.IADD ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "iadd" );
+        }
+        else if ( opcode.equals( Opcodes.IALOAD ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "iaload" );
+        }
+        else if ( opcode.equals( Opcodes.IAND ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "iand" );
+        }
+        else if ( opcode.equals( Opcodes.IASTORE ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "iastore" );
+        }
+        else if ( opcode.equals( Opcodes.ICONST_M1 ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "iconst_m1" );
+        }
+        else if ( opcode.equals( Opcodes.IDIV ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "idiv" );
+        }
+        else if ( opcode.equals( Opcodes.IF_ACMPEQ ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "if_acmpeq " + getBranchInstPC() );
+        }
+        else if ( opcode.equals( Opcodes.IF_ACMPNE ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "if_acmpne " + getBranchInstPC() );
+        }
+        else if ( opcode.equals( Opcodes.IF_ICMPEQ ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "if_icmpeq " + getBranchInstPC() );
+        }
+        else if ( opcode.equals( Opcodes.IF_ICMPGE ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "if_icmpge " + getBranchInstPC() );
+        }
+        else if ( opcode.equals( Opcodes.IF_ICMPGT ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "if_icmpgt " + getBranchInstPC() );
+        }
+        else if ( opcode.equals( Opcodes.IF_ICMPLE ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "if_icmple " + getBranchInstPC() );
+        }
+        else if ( opcode.equals( Opcodes.IF_ICMPLT ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "if_icmplt " + getBranchInstPC() );
+        }
+        else if ( opcode.equals( Opcodes.IF_ICMPNE ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "if_icmpne " + getBranchInstPC() );
+        }
+        else if ( opcode.equals( Opcodes.IFNE ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "ifne " + getBranchInstPC() );
+        }
+        else if ( opcode.equals( Opcodes.IFEQ ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "ifeq " + getBranchInstPC() );
+        }
+        else if ( opcode.equals( Opcodes.IFGE ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "ifge " + getBranchInstPC() );
+        }
+        else if ( opcode.equals( Opcodes.IFGT ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "ifgt " + getBranchInstPC() );
+        }
+        else if ( opcode.equals( Opcodes.IFLE ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "ifle " + getBranchInstPC() );
+        }
+        else if ( opcode.equals( Opcodes.IFLT ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "iflt " + getBranchInstPC() );
+        }
+
         else if ( opcode.equals( Opcodes.ISTORE ) )
         {
             System.out.println( "\t\t" + pc + " " + "istore " + constantPoolLookUp.lookUp( getSimpleIndex() ) );
@@ -382,6 +486,26 @@ public class MethodDecoder
         else if ( opcode.equals( Opcodes.istore_3 ) )
         {
             System.out.println( "\t\t" + pc + " " + "istore_3" );
+        }
+        else if ( opcode.equals( Opcodes.LSTORE ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "lstore " + constantPoolLookUp.lookUp( getSimpleIndex() ) );
+        }
+        else if ( opcode.equals( Opcodes.lstore_0 ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "lstore_0" );
+        }
+        else if ( opcode.equals( Opcodes.lstore_1 ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "lstore_1" );
+        }
+        else if ( opcode.equals( Opcodes.lstore_2 ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "lstore_2" );
+        }
+        else if ( opcode.equals( Opcodes.lstore_3 ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "lstore_3" );
         }
         else if ( opcode.equals( Opcodes.ILOAD ) )
         {
@@ -403,65 +527,77 @@ public class MethodDecoder
         {
             System.out.println( "\t\t" + pc + " " + "iload_3" );
         }
-        else if ( opcode.equals( Opcodes.IFNE ) )
+        else if ( opcode.equals( Opcodes.IFNONNULL ) )
         {
-            System.out.println( "\t\t" + pc + " " + "ifne " + constantPoolLookUp.lookUp( getDoubleIndex() ) );
+            System.out.println( "\t\t" + pc + " " + "ifnotnull " + getBranchInstPC() );
         }
-        else if ( opcode.equals( Opcodes.IFEQ ) )
+        else if ( opcode.equals( Opcodes.IFNULL ) )
         {
-            System.out.println( "\t\t" + pc + " " + "ifeq " + constantPoolLookUp.lookUp( getDoubleIndex() ) );
+            System.out.println( "\t\t" + pc + " " + "ifnull " + getBranchInstPC() );
         }
-        else if ( opcode.equals( Opcodes.IFGE ) )
+        else if ( opcode.equals( Opcodes.IINC ) )
         {
-            System.out.println( "\t\t" + pc + " " + "ifge " + constantPoolLookUp.lookUp( getDoubleIndex() ) );
+            System.out.println( "\t\t" + pc + " " + "iinc " + constantPoolLookUp.lookUp( getSimpleIndex() ) + " by " + ByteReader.read_u1( dis ) );
+            pc++;
         }
-        else if ( opcode.equals( Opcodes.IFGT ) )
-        {
-            System.out.println( "\t\t" + pc + " " + "ifgt " + constantPoolLookUp.lookUp( getDoubleIndex() ) );
-        }
-        else if ( opcode.equals( Opcodes.IFLE ) )
-        {
-            System.out.println( "\t\t" + pc + " " + "ifle " + constantPoolLookUp.lookUp( getDoubleIndex() ) );
-        }
-        else if ( opcode.equals( Opcodes.IFLT ) )
-        {
-            System.out.println( "\t\t" + pc + " " + "iflt " + constantPoolLookUp.lookUp( getDoubleIndex() ) );
-        }
-        else if ( opcode.equals( Opcodes.IF_ACMPEQ ) )
-        {
-            System.out.println( "\t\t" + pc + " " + "if_acmpeq " + constantPoolLookUp.lookUp( getDoubleIndex() ) );
-        }
-        else if ( opcode.equals( Opcodes.IF_ACMPNE ) )
-        {
-            System.out.println( "\t\t" + pc + " " + "if_acmpne " + constantPoolLookUp.lookUp( getDoubleIndex() ) );
-        }
-        else if ( opcode.equals( Opcodes.IF_ICMPEQ ) )
-        {
-            System.out.println( "\t\t" + pc + " " + "if_icmpeq " + constantPoolLookUp.lookUp( getDoubleIndex() ) );
-        }
-        else if ( opcode.equals( Opcodes.IF_ICMPGE ) )
-        {
-            System.out.println( "\t\t" + pc + " " + "if_icmpge " + constantPoolLookUp.lookUp( getDoubleIndex() ) );
-        }
-        else if ( opcode.equals( Opcodes.IF_ICMPGT ) )
-        {
-            System.out.println( "\t\t" + pc + " " + "if_icmpgt " + constantPoolLookUp.lookUp( getDoubleIndex() ) );
-        }
-        else if ( opcode.equals( Opcodes.IF_ICMPLE ) )
-        {
-            System.out.println( "\t\t" + pc + " " + "if_icmple " + constantPoolLookUp.lookUp( getDoubleIndex() ) );
-        }
-        else if ( opcode.equals( Opcodes.IF_ICMPLT ) )
-        {
-            System.out.println( "\t\t" + pc + " " + "if_icmplt " + constantPoolLookUp.lookUp( getDoubleIndex() ) );
-        }
-        else if ( opcode.equals( Opcodes.IF_ICMPNE ) )
-        {
-            System.out.println( "\t\t" + pc + " " + "if_icmpne " + constantPoolLookUp.lookUp( getDoubleIndex() ) );
-        }
+        
+        
+
         else if ( opcode.equals( Opcodes.NEW ) )
         {
             System.out.println( "\t\t" + pc + " " + "new " + constantPoolLookUp.lookUp( getDoubleIndex() ) );
+        }
+        else if ( opcode.equals( Opcodes.INVOKEINTERFACE ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "invokeinterface " + constantPoolLookUp.lookUp( getDoubleIndex() ) + " Count:" + ByteReader.read_u1( dis ) + " " + ByteReader.read_u1( dis ) );
+            pc++;
+            pc++;
+        }
+        else if ( opcode.equals( Opcodes.INVOKEDYNAMIC ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "invokedynamic " + constantPoolLookUp.lookUp( getDoubleIndex() ) + " " + ByteReader.read_u1( dis ) + " " + ByteReader.read_u1( dis ) );
+            pc++;
+            pc++;
+        }
+        else if ( opcode.equals( Opcodes.INVOKESPECIAL ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "invokespecial " + constantPoolLookUp.lookUp( getDoubleIndex() ) );
+        }
+        else if ( opcode.equals( Opcodes.INVOKESTATIC ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "invokestatic " + constantPoolLookUp.lookUp( getDoubleIndex() ) );
+        }
+        else if ( opcode.equals( Opcodes.INVOKEVIRTUAL ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "invokevirtual " + constantPoolLookUp.lookUp( getDoubleIndex() ) );
+        }
+        else if ( opcode.equals( Opcodes.MONITORENTER ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "monitorenter " );
+        }
+        else if ( opcode.equals( Opcodes.MONITOREXIT ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "monitorexit " );
+        }
+        else if ( opcode.equals( Opcodes.FCONST_0 ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "fconst_0" );
+        }
+        else if ( opcode.equals( Opcodes.FCONST_1 ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "fconst_1" );
+        }
+        else if ( opcode.equals( Opcodes.FCONST_2 ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "fconst_2" );
+        }
+        else if ( opcode.equals( Opcodes.POP ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "pop" );
+        }
+        else if ( opcode.equals( Opcodes.POP2 ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "pop2" );
         }
 
         else if ( opcode.equals( Opcodes.ICONST_0 ) )
@@ -505,17 +641,9 @@ public class MethodDecoder
         {
             System.out.println( "\t\t" + pc + " " + "ldc " + constantPoolLookUp.lookUp( getSimpleIndex() ) );
         }
-        else if ( opcode.equals( Opcodes.INVOKESPECIAL ) )
+        else if ( opcode.equals( Opcodes.LDC_W ) )
         {
-            System.out.println( "\t\t" + pc + " " + "invokespecial " + constantPoolLookUp.lookUp( getDoubleIndex() ) );
-        }
-        else if ( opcode.equals( Opcodes.INVOKESTATIC ) )
-        {
-            System.out.println( "\t\t" + pc + " " + "invokestatic " + constantPoolLookUp.lookUp( getDoubleIndex() ) );
-        }
-        else if ( opcode.equals( Opcodes.INVOKEVIRTUAL ) )
-        {
-            System.out.println( "\t\t" + pc + " " + "invokevirtual " + constantPoolLookUp.lookUp( getDoubleIndex() ) );
+            System.out.println( "\t\t" + pc + " " + "ldc_w " + constantPoolLookUp.lookUp( getSimpleIndex() ) );
         }
         else if ( opcode.equals( Opcodes.PUTSTATIC ) )
         {
@@ -557,6 +685,15 @@ public class MethodDecoder
         int indexbyte1 = ByteReader.read_u1( dis ) & 0xFF;
         pc++;
         int indexbyte2 = ByteReader.read_u1( dis ) & 0xFF;
+        pc++;
+        return indexbyte1 << 8 | indexbyte2;
+    }
+
+    private int getBranchInstPC() throws IOException
+    {
+        int indexbyte1 = ByteReader.read_u1( dis );
+        pc++;
+        int indexbyte2 = ByteReader.read_u1( dis );
         pc++;
         return indexbyte1 << 8 | indexbyte2;
     }
