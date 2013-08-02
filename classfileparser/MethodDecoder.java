@@ -30,21 +30,17 @@ public class MethodDecoder
 
     private void lookUpOpcode( Integer opcode ) throws IOException, Exception
     {
-        if ( opcode.equals( Opcodes.RETURN ) )
-        {
-            System.out.println( "\t\t" + pc + " " + "return" );
-        }
-        else if ( opcode.equals( Opcodes.ACONST_NULL ) )
-        {
-            System.out.println( "\t\t" + pc + " " + "aconst_null" );
-        }
-        else if ( opcode.equals( Opcodes.AALOAD ) )
+        if ( opcode.equals( Opcodes.AALOAD ) )
         {
             System.out.println( "\t\t" + pc + " " + "aaload" );
         }
         else if ( opcode.equals( Opcodes.AASTORE ) )
         {
             System.out.println( "\t\t" + pc + " " + "aastore" );
+        }
+        else if ( opcode.equals( Opcodes.ACONST_NULL ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "aconst_null" );
         }
         else if ( opcode.equals( Opcodes.ALOAD ) )
         {
@@ -540,8 +536,11 @@ public class MethodDecoder
             System.out.println( "\t\t" + pc + " " + "iinc " + constantPoolLookUp.lookUp( getSimpleIndex() ) + " by " + ByteReader.read_u1( dis ) );
             pc++;
         }
-        
-        
+
+        if ( opcode.equals( Opcodes.RETURN ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "return" );
+        }
 
         else if ( opcode.equals( Opcodes.NEW ) )
         {
@@ -643,7 +642,11 @@ public class MethodDecoder
         }
         else if ( opcode.equals( Opcodes.LDC_W ) )
         {
-            System.out.println( "\t\t" + pc + " " + "ldc_w " + constantPoolLookUp.lookUp( getSimpleIndex() ) );
+            System.out.println( "\t\t" + pc + " " + "ldc_w " + constantPoolLookUp.lookUp( getConstantPoolIndex() ) );
+        }
+        else if ( opcode.equals( Opcodes.LDC2_W ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "ldc2_w " + constantPoolLookUp.lookUp( getConstantPoolIndex() ) );
         }
         else if ( opcode.equals( Opcodes.PUTSTATIC ) )
         {
@@ -678,6 +681,13 @@ public class MethodDecoder
     {
         pc++;
         return ByteReader.read_u1( dis );
+    }
+
+    private int getConstantPoolIndex() throws IOException
+    {
+        pc++;
+        pc++;
+        return ByteReader.read_u2( dis );
     }
 
     private int getDoubleIndex() throws IOException

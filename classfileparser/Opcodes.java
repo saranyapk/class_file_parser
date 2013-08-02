@@ -80,6 +80,7 @@ public interface Opcodes
     public static final int SIPUSH = 17;
     public static final int LDC = 18;
     public static final int LDC_W = 19;
+    public static final int LDC2_W = 20;
     public static final int ILOAD = 21;
     public static final int iload_0 = 26; //(0x1a)
     public static final int iload_1 = 27; //(0x1b)
