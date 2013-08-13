@@ -77,6 +77,8 @@ public interface Opcodes
     public static final int DCONST_0 = 14;
     public static final int DCONST_1 = 15;
     public static final int BIPUSH = 16;
+    
+    public static final int BREAKPOINT = 202;
     public static final int SIPUSH = 17;
     public static final int LDC = 18;
     public static final int LDC_W = 19;

@@ -25,4 +25,20 @@ public class ByteReader
 
         return dis.readLong();
     }
+    
+    public static int read_s1( DataInputStream dis ) throws IOException
+    {
+        return dis.readByte();
+    }
+    
+    public static int read_s2( DataInputStream dis ) throws IOException
+    {
+        return dis.readShort();
+    }
+    
+    public static int read_s4( DataInputStream dis ) throws IOException
+    {
+        return dis.readInt();
+    }
+
 }
