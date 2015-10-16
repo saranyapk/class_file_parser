@@ -30,7 +30,11 @@ public class MethodDecoder
 
     private void lookUpOpcode( Integer opcode ) throws IOException, Exception
     {
-        if ( opcode.equals( Opcodes.AALOAD ) )
+	if ( opcode.equals( Opcodes.NOP ) )
+	{
+	    System.out.println( "\t\t" + pc + " " + "nop" );
+	}
+	else if ( opcode.equals( Opcodes.AALOAD ) )
         {
             System.out.println( "\t\t" + pc + " " + "aaload" );
         }
@@ -61,6 +65,18 @@ public class MethodDecoder
         else if ( opcode.equals( Opcodes.aload_3 ) )
         {
             System.out.println( "\t\t" + pc + " " + "aload_3" );
+        }
+        else if ( opcode.equals( Opcodes.ANEWARRAY ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "anewarray " + constantPoolLookUp.lookUp( getDoubleIndex() ) );
+        }
+        else if ( opcode.equals( Opcodes.ARETURN ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "areturn" );
+        }
+        else if ( opcode.equals( Opcodes.ARRAYLENGTH ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "arraylength" );
         }
         else if ( opcode.equals( Opcodes.ASTORE ) )
         {
@@ -363,13 +379,17 @@ public class MethodDecoder
         }
         else if ( opcode.equals( Opcodes.GOTO ) )
         {
-            System.out.println( "\t\t" + pc + " " + "goto " + ByteReader.read_s2( dis ) );
+            int pcL = pc;
+
+            System.out.println( "\t\t" + pc + " " + "goto " + ( pcL + ByteReader.read_u2( dis ) ) );
             pc++;
             pc++;
         }
         else if ( opcode.equals( Opcodes.goto_w ) )
         {
-            System.out.println( "\t\t" + pc + " " + "goto_w " + ByteReader.read_s4( dis ) );
+            int pcL = pc;
+            
+            System.out.println( "\t\t" + pc + " " + "goto_w " + ( pcL + ByteReader.read_s4( dis ) ) );
             pc++;
             pc++;
             pc++;
@@ -418,6 +438,30 @@ public class MethodDecoder
         else if ( opcode.equals( Opcodes.ICONST_M1 ) )
         {
             System.out.println( "\t\t" + pc + " " + "iconst_m1" );
+        }
+        else if ( opcode.equals( Opcodes.ICONST_0 ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "iconst_0" );
+        }
+        else if ( opcode.equals( Opcodes.ICONST_1 ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "iconst_1" );
+        }
+        else if ( opcode.equals( Opcodes.ICONST_2 ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "iconst_2" );
+        }
+        else if ( opcode.equals( Opcodes.ICONST_3 ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "iconst_3" );
+        }
+        else if ( opcode.equals( Opcodes.ICONST_4 ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "iconst_4" );
+        }
+        else if ( opcode.equals( Opcodes.ICONST_5 ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "iconst_5" );
         }
         else if ( opcode.equals( Opcodes.IDIV ) )
         {
@@ -526,14 +570,6 @@ public class MethodDecoder
             pc++;
             pc++;
         }
-        else if ( opcode.equals( Opcodes.INVOKEINTERFACE ) )
-        {
-            System.out.println( "\t\t" + pc + " " + "invokeinterface " + constantPoolLookUp.lookUp( ByteReader.read_u2( dis ) ) + " Count:" + ByteReader.read_u1( dis ) + " " + ByteReader.read_u1( dis ) );
-            pc++;
-            pc++;
-            pc++;
-            pc++;
-        }
         else if ( opcode.equals( Opcodes.INVOKEDYNAMIC ) )
         {
             System.out.println( "\t\t" + pc + " " + "invokedynamic " + constantPoolLookUp.lookUp( ByteReader.read_u2( dis ) ) + " Count:" + ByteReader.read_u1( dis ) + " " + ByteReader.read_u1( dis ) );
@@ -542,6 +578,15 @@ public class MethodDecoder
             pc++;
             pc++;
         }
+        else if ( opcode.equals( Opcodes.INVOKEINTERFACE ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "invokeinterface " + constantPoolLookUp.lookUp( ByteReader.read_u2( dis ) ) + " Count:" + ByteReader.read_u1( dis ) + " " + ByteReader.read_u1( dis ) );
+            pc++;
+            pc++;
+            pc++;
+            pc++;
+        }
+        
         else if ( opcode.equals( Opcodes.INVOKESPECIAL ) )
         {
             System.out.println( "\t\t" + pc + " " + "invokespecial " + constantPoolLookUp.lookUp( ByteReader.read_u2( dis ) ) );
@@ -560,7 +605,26 @@ public class MethodDecoder
             pc++;
             pc++;
         }
-
+        else if ( opcode.equals( Opcodes.IOR ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "ior" );
+        }
+        else if ( opcode.equals( Opcodes.IREM ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "irem" );
+        }
+        else if ( opcode.equals( Opcodes.IRETURN) )
+        {
+            System.out.println( "\t\t" + pc + " " + "ireturn" );
+        }
+        else if ( opcode.equals( Opcodes.ISHL) )
+        {
+            System.out.println( "\t\t" + pc + " " + "ishl" );
+        }
+        else if ( opcode.equals( Opcodes.ISHR) )
+        {
+            System.out.println( "\t\t" + pc + " " + "ishr" );
+        }
         else if ( opcode.equals( Opcodes.ISTORE ) )
         {
             System.out.println( "\t\t" + pc + " " + "istore " + constantPoolLookUp.lookUp( getSimpleIndex() ) );
@@ -580,6 +644,153 @@ public class MethodDecoder
         else if ( opcode.equals( Opcodes.istore_3 ) )
         {
             System.out.println( "\t\t" + pc + " " + "istore_3" );
+        }
+        else if ( opcode.equals( Opcodes.ISUB ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "isub" );
+        }
+        else if ( opcode.equals( Opcodes.IUSHR ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "iushr" );
+        }
+        else if ( opcode.equals( Opcodes.IXOR ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "ixor" );
+        }
+        else if ( opcode.equals( Opcodes.JSR ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "jsr " +  getBranchInstPC() );
+        }
+        else if ( opcode.equals( Opcodes.JSR_W) )
+        {
+            int pcL = pc;
+            System.out.println( "\t\t" + pc + " " + "jsr_w " +  ( pcL + ByteReader.read_s4( dis ) ) );
+            pc++;
+            pc++;
+            pc++;
+            pc++;
+        }
+        else if ( opcode.equals( Opcodes.L2D) )
+        {
+            System.out.println( "\t\t" + pc + " " + "l2d" );
+        }
+        else if ( opcode.equals( Opcodes.L2F) )
+        {
+            System.out.println( "\t\t" + pc + " " + "l2f" );
+        }
+        else if ( opcode.equals( Opcodes.L2I) )
+        {
+            System.out.println( "\t\t" + pc + " " + "l2i" );
+        }
+        else if ( opcode.equals( Opcodes.LADD) )
+        {
+            System.out.println( "\t\t" + pc + " " + "ladd" );
+        }
+        else if ( opcode.equals( Opcodes.LALOAD) )
+        {
+            System.out.println( "\t\t" + pc + " " + "laload" );
+        }
+        else if ( opcode.equals( Opcodes.LAND) )
+        {
+            System.out.println( "\t\t" + pc + " " + "land" );
+        }
+        else if ( opcode.equals( Opcodes.LASTORE) )
+        {
+            System.out.println( "\t\t" + pc + " " + "lastore" );
+        }
+        else if ( opcode.equals( Opcodes.LCMP) )
+        {
+            System.out.println( "\t\t" + pc + " " + "lcmp" );
+        }
+        else if ( opcode.equals( Opcodes.LCONST_0 ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "lconst_0" );
+        }
+        else if ( opcode.equals( Opcodes.LCONST_1 ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "lconst_1" );
+        }
+        else if ( opcode.equals( Opcodes.LDC ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "ldc " + constantPoolLookUp.lookUp( ByteReader.read_u1( dis ) ) );
+            pc++;
+        }
+        else if ( opcode.equals( Opcodes.LDC_W ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "ldc_w " + constantPoolLookUp.lookUp( getConstantPoolIndex() ) );
+        }
+        else if ( opcode.equals( Opcodes.LDC2_W ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "ldc2_w " + constantPoolLookUp.lookUp( getConstantPoolIndex() ) );
+        }
+        else if ( opcode.equals( Opcodes.LDIV ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "ldiv" );
+        }
+        else if ( opcode.equals( Opcodes.LLOAD ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "lload " + constantPoolLookUp.lookUp( ByteReader.read_u1( dis ) ) );
+            pc++;
+        }
+        else if ( opcode.equals( Opcodes.lload_0 ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "lload_0" );
+        }
+        else if ( opcode.equals( Opcodes.lload_1 ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "lload_1" );
+        }
+        else if ( opcode.equals( Opcodes.lload_2 ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "lload_2" );
+        }
+        else if ( opcode.equals( Opcodes.lload_3 ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "lload_3" );
+        }
+        else if ( opcode.equals( Opcodes.LMUL ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "lmul" );
+        }
+        else if ( opcode.equals( Opcodes.LNEG ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "lneg" );
+        }
+        else if ( opcode.equals( Opcodes.LOOKUPSWITCH ) )
+	{
+	    System.out.println("\t\t" + pc + " " + "lookupswitch");
+	   
+	    pad();
+	    
+	    System.out.println("\t\t\t" + "default:" + " " + getIndexWithFourBytes());
+	    
+	    int npairs = getIndexWithFourBytes();
+	    
+	    for (int i = 0; i < npairs; i++)
+	    {
+		System.out.println("\t\t\t" + ByteReader.read_u4(dis) + ":" + ByteReader.read_u4(dis) );
+	    }
+
+	}
+        else if ( opcode.equals( Opcodes.LOR ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "lor" );
+        }
+        else if ( opcode.equals( Opcodes.LREM ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "lrem" );
+        }
+        else if ( opcode.equals( Opcodes.LRETURN ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "lreturn" );
+        }
+        else if ( opcode.equals( Opcodes.LSHL ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "lshl" );
+        }
+        else if ( opcode.equals( Opcodes.LSHR ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "lshr" );
         }
         else if ( opcode.equals( Opcodes.LSTORE ) )
         {
@@ -601,15 +812,17 @@ public class MethodDecoder
         {
             System.out.println( "\t\t" + pc + " " + "lstore_3" );
         }
-        else if ( opcode.equals( Opcodes.RETURN ) )
+        else if ( opcode.equals( Opcodes.LSUB ) )
         {
-            System.out.println( "\t\t" + pc + " " + "return" );
+            System.out.println( "\t\t" + pc + " " + "lsub" );
         }
-        else if ( opcode.equals( Opcodes.NEW ) )
+        else if ( opcode.equals( Opcodes.LUSHR ) )
         {
-            System.out.println( "\t\t" + pc + " " + "new " + constantPoolLookUp.lookUp( ByteReader.read_u2( dis ) ) );
-            pc++;
-            pc++;
+            System.out.println( "\t\t" + pc + " " + "lushr" );
+        }
+        else if ( opcode.equals( Opcodes.LXOR ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "lxor" );
         }
         else if ( opcode.equals( Opcodes.MONITORENTER ) )
         {
@@ -619,17 +832,23 @@ public class MethodDecoder
         {
             System.out.println( "\t\t" + pc + " " + "monitorexit " );
         }
-        else if ( opcode.equals( Opcodes.FCONST_0 ) )
+        else if ( opcode.equals( Opcodes.MULTIANEWARRAY ) )
         {
-            System.out.println( "\t\t" + pc + " " + "fconst_0" );
+            System.out.println( "\t\t" + pc + " " + "multinewarray " + constantPoolLookUp.lookUp( ByteReader.read_u2( dis ) ));
+            pc++;
+            pc++;
+            System.out.println( "\t\t\tDimension: " + ByteReader.read_u1( dis ) );
+            pc++;
         }
-        else if ( opcode.equals( Opcodes.FCONST_1 ) )
+        else if ( opcode.equals( Opcodes.NEW ) )
         {
-            System.out.println( "\t\t" + pc + " " + "fconst_1" );
+            System.out.println( "\t\t" + pc + " " + "new " + constantPoolLookUp.lookUp( ByteReader.read_u2( dis ) ) );
+            pc++;
+            pc++;
         }
-        else if ( opcode.equals( Opcodes.FCONST_2 ) )
+        else if ( opcode.equals( Opcodes.NEWARRAY ) )
         {
-            System.out.println( "\t\t" + pc + " " + "fconst_2" );
+            System.out.println( "\t\t" + pc + " " + "newarray " + lookupAType() );
         }
         else if ( opcode.equals( Opcodes.POP ) )
         {
@@ -639,63 +858,68 @@ public class MethodDecoder
         {
             System.out.println( "\t\t" + pc + " " + "pop2" );
         }
-
-        else if ( opcode.equals( Opcodes.ICONST_0 ) )
+        else if ( opcode.equals( Opcodes.PUTFIELD ) )
         {
-            System.out.println( "\t\t" + pc + " " + "iconst_0" );
-        }
-        else if ( opcode.equals( Opcodes.ICONST_1 ) )
-        {
-            System.out.println( "\t\t" + pc + " " + "iconst_1" );
-        }
-        else if ( opcode.equals( Opcodes.ICONST_2 ) )
-        {
-            System.out.println( "\t\t" + pc + " " + "iconst_2" );
-        }
-        else if ( opcode.equals( Opcodes.ICONST_3 ) )
-        {
-            System.out.println( "\t\t" + pc + " " + "iconst_3" );
-        }
-        else if ( opcode.equals( Opcodes.ICONST_4 ) )
-        {
-            System.out.println( "\t\t" + pc + " " + "iconst_4" );
-        }
-        else if ( opcode.equals( Opcodes.ICONST_5 ) )
-        {
-            System.out.println( "\t\t" + pc + " " + "iconst_5" );
-        }
-        else if ( opcode.equals( Opcodes.ARETURN ) )
-        {
-            System.out.println( "\t\t" + pc + " " + "areturn" );
-        }
-        else if ( opcode.equals( Opcodes.ARRAYLENGTH ) )
-        {
-            System.out.println( "\t\t" + pc + " " + "arraylength" );
-        }
-        else if ( opcode.equals( Opcodes.ANEWARRAY ) )
-        {
-            System.out.println( "\t\t" + pc + " " + "anewarray " + constantPoolLookUp.lookUp( getDoubleIndex() ) );
-        }
-        else if ( opcode.equals( Opcodes.LDC ) )
-        {
-            System.out.println( "\t\t" + pc + " " + "ldc " + constantPoolLookUp.lookUp( ByteReader.read_u1( dis ) ) );
-            pc++;
-        }
-        else if ( opcode.equals( Opcodes.LDC_W ) )
-        {
-            System.out.println( "\t\t" + pc + " " + "ldc_w " + constantPoolLookUp.lookUp( getConstantPoolIndex() ) );
-        }
-        else if ( opcode.equals( Opcodes.LDC2_W ) )
-        {
-            System.out.println( "\t\t" + pc + " " + "ldc2_w " + constantPoolLookUp.lookUp( getConstantPoolIndex() ) );
+            System.out.println( "\t\t" + pc + " " + "putfield " + constantPoolLookUp.lookUp( getDoubleIndex() ) );
         }
         else if ( opcode.equals( Opcodes.PUTSTATIC ) )
         {
             System.out.println( "\t\t" + pc + " " + "putstatic " + constantPoolLookUp.lookUp( getDoubleIndex() ) );
         }
-        else if ( opcode.equals( Opcodes.PUTFIELD ) )
+        else if ( opcode.equals( Opcodes.RET ) )
         {
-            System.out.println( "\t\t" + pc + " " + "putfield " + constantPoolLookUp.lookUp( getDoubleIndex() ) );
+            //TODo
+            System.out.println( "\t\t" + pc + " " + "return" );
+        }
+        else if ( opcode.equals( Opcodes.RETURN ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "return" );
+        }
+        else if ( opcode.equals( Opcodes.SALOAD ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "saload" );
+        }
+        else if ( opcode.equals( Opcodes.SASTORE ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "sastore" );
+        }
+        else if ( opcode.equals( Opcodes.SIPUSH ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "sipush " + constantPoolLookUp.lookUp( getConstantPoolIndex() ) );
+        }
+        else if ( opcode.equals( Opcodes.SWAP ) )
+        {
+            System.out.println( "\t\t" + pc + " " + "swap" );
+        }
+        else if ( opcode.equals( Opcodes.TABLESWITCH ) )
+        {
+	    System.out.println("\t\t" + pc + " " + "tableswitch");
+	    
+	    int pcL = pc;
+	    
+	    pad();
+	    
+	    System.out.println("\t\t\t" + "default:" + " " + ( pcL + getIndexWithFourBytesSigned()));
+	   
+	    int low = getIndexWithFourBytesSigned();
+	    
+	    int high =  getIndexWithFourBytesSigned();
+	    
+	    for (int i = 0; i < (high - low + 1); i++)
+	    {
+		System.out.println("\t\t\t" + i + ":" + (pcL + ByteReader.read_u4(dis) ) );
+		pc++;
+		pc++;
+		pc++;
+		pc++;
+	    }
+
+	
+        }
+        else if ( opcode.equals( Opcodes.WIDE ) )
+        {
+            //TODO
+            System.out.println( "\t\t" + pc + " " + "fconst_1" );
         }
         else
         {
@@ -715,6 +939,20 @@ public class MethodDecoder
         pc++;
 
         return ( indexbyte1 << 24 ) | ( indexbyte2 << 16 ) | ( indexbyte3 << 8 ) | indexbyte4;
+    }
+    
+    private Integer getIndexWithFourBytesSigned() throws IOException
+    {
+	int indexbyte1 = ByteReader.read_s1(dis);
+	pc++;
+	int indexbyte2 = ByteReader.read_s1(dis);
+	pc++;
+	int indexbyte3 = ByteReader.read_s1(dis);
+	pc++;
+	int indexbyte4 = ByteReader.read_s1(dis);
+	pc++;
+
+	return (indexbyte1 << 24) | (indexbyte2 << 16) | (indexbyte3 << 8) | indexbyte4;
     }
 
     private int getSimpleIndex() throws IOException
@@ -741,8 +979,66 @@ public class MethodDecoder
 
     private int getBranchInstPC() throws IOException
     {
+	int pcL = pc;
         pc++;
         pc++;
-        return ByteReader.read_s2( dis );
+        return pcL + ByteReader.read_s2( dis );
+    }
+    
+    private void pad() throws IOException
+    {
+	switch(pc % 4)
+	{
+	case 0:
+	    for(int i=1;i<=3;i++)
+	    {
+		ByteReader.read_u1(dis);
+		pc++;
+	    }
+	break;
+	case 1:
+	    for(int i=1;i<=2;i++)
+	    {
+		ByteReader.read_u1(dis);
+		pc++;
+	    }
+	break;
+	
+	case 2:
+		ByteReader.read_u1(dis);
+		pc++;
+	break;
+	
+	case 3:
+	  //No nothing
+	break;
+	}
+    }
+    
+   private String lookupAType() throws IOException //Array Type
+    {
+	int i = ByteReader.read_u1(dis);
+	pc++;
+	switch (i)
+	{
+	case 4:
+	    return "T_BOOLEAN";
+	case 5:
+	    return "T_CHAR";
+	case 6:
+	    return "T_FLOAT";
+	case 7:
+	    return "T_DOUBLE";
+	case 8:
+	    return "T_BYTE";
+	case 9:
+	    return "T_SHORT";
+	case 10:
+	    return "T_INT";
+	case 11:
+	    return "T_LONG";
+	default:
+	    return "";
+	}
     }
 }
