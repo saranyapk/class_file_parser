@@ -139,7 +139,7 @@ public class ConstantPoolReader
     private void readConstantStringInfo() throws IOException
     {
         Integer string_info = ByteReader.read_u2( dis );
-        constantPoolLookUp.put( i, ConstantPoolType.CONSTANT_String, string_info.toString() );
+        constantPoolLookUp.put( i, ConstantPoolType.CONSTANT_String, string_info );
         System.out.println( i + "  " + string_info.toString() );
 
     }
