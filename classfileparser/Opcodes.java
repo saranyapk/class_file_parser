@@ -88,6 +88,10 @@ public interface Opcodes
     public static final int iload_1 = 27; //(0x1b)
     public static final int iload_2 = 28; //(0x1c)
     public static final int iload_3 = 29; // (0x1d) 
+    public static final int lload_0 = 30; // (0x1d) 
+    public static final int lload_1 = 31; // (0x1d) 
+    public static final int lload_2 = 32; // (0x1d) 
+    public static final int lload_3 = 33; // (0x1d) 
     public static final int LLOAD = 22;
     public static final int FLOAD = 23;
     public static final int fload_0 = 34; //(0x22)
@@ -228,6 +232,7 @@ public interface Opcodes
     public static final int GOTO = 167;
     public static final int goto_w = 200;// (0xc8) 
     public static final int JSR = 168;
+    public static final int JSR_W = 201;
     public static final int RET = 169;
     public static final int TABLESWITCH = 170;
     public static final int LOOKUPSWITCH = 171;
@@ -258,5 +263,6 @@ public interface Opcodes
     public static final int MULTIANEWARRAY = 197;
     public static final int IFNULL = 198;
     public static final int IFNONNULL = 199;
+    public static final int WIDE = 196;
 
 }
