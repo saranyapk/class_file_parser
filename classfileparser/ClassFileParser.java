@@ -18,10 +18,16 @@ public class ClassFileParser
     {
         try
         {
+           
             //readCompleteClass();
 
             filePath = args[0];
-
+            
+            if( !validateFile() )
+            {
+        	return;
+            }
+            
             dis = new DataInputStream( new FileInputStream( new File( filePath ) ) );
 
             attributeReader.setDis( dis );
@@ -64,6 +70,18 @@ public class ClassFileParser
             e.printStackTrace();
         }
 
+    }
+    
+    private static boolean validateFile()
+    {
+	if(!filePath.toUpperCase().endsWith(".CLASS"))
+	{
+	    System.out.println("Please input a .class file to this parser.");
+	    
+	    return false;
+	}
+	
+	return true;
     }
 
     @SuppressWarnings("unused")
@@ -135,7 +153,7 @@ public class ClassFileParser
         System.out.println( "Class Name: " + constantPoolLookUp.lookUp( thisClass ) );
     }
 
-    private static String readAccessFlag() throws IOException
+    public static String readAccessFlag() throws IOException
     {
         int accessFlag = ByteReader.read_u2( dis );
 
