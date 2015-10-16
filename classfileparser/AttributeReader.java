@@ -216,8 +216,7 @@ public class AttributeReader
 
     private void readSourceFileAttribute() throws Exception
     {
-        System.out.println( "Source File:" + constantPoolLookUp.lookUp( ByteReader.read_u2( dis ) ) );
-
+        System.out.println( "\t\tSource File Index:" + constantPoolLookUp.lookUp( ByteReader.read_u2( dis ) ) );
     }
 
     private void readLocalVariableTableAttribute() throws Exception
@@ -255,7 +254,29 @@ public class AttributeReader
 
     private void readInnerClassAttribute() throws Exception
     {
-        throw new Exception( "Unimplemented Method" );
+	int noOfClasses = ByteReader.read_u2(dis);
+	for (int i = 0; i < noOfClasses; i++)
+	{
+	    int innerClassInfoIndex = ByteReader.read_u2(dis);
+	    if(innerClassInfoIndex != 0)
+	    {
+		System.out.println("\t\t\t" + constantPoolLookUp.lookUp(innerClassInfoIndex));
+	    }
+	    
+	    int outerClassInfoIndex = ByteReader.read_u2(dis);
+	    if(outerClassInfoIndex != 0)
+	    {
+		System.out.println("\t\t\t" + constantPoolLookUp.lookUp(outerClassInfoIndex));
+	    }
+	    
+	    int innernameindex = ByteReader.read_u2(dis);
+	    if(innernameindex != 0)
+	    {
+		System.out.println("\t\t\t" + constantPoolLookUp.lookUp(innernameindex));
+	    }
+	    
+	    ClassFileParser.readAccessFlag();
+	}
 
     }
 
