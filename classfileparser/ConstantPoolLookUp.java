@@ -43,7 +43,7 @@ public class ConstantPoolLookUp
         }
         else if ( cpValue.type.equals( ConstantPoolType.CONSTANT_String ) )
         {
-            return (String)cpValue.value;
+            return lookUp( (Integer)cpValue.value );
         }
         else if ( cpValue.type.equals( ConstantPoolType.CONSTANT_Class ) )
         {
