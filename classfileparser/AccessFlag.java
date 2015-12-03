@@ -12,4 +12,3 @@ public class AccessFlag
     public static int ACC_PROTECTED = 0x0004;
     public static int ACC_PRIVATE = 0x0002;
 }
-
