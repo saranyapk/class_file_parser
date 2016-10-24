@@ -94,12 +94,13 @@ public class AttributeReader
         {
             Formatter formatter = new Formatter();
             System.out.println( "\t\t" + formatter.format( "%-10s %-10s %-30s %-50s %-10s", "Start_PC", "Length", "Name", "Signature", "Index" ) );
-
+            formatter.close();
         }
         for ( int i = 0; i < localVariableTypeTableLength; i++ )
         {
             Formatter formatter = new Formatter();
             System.out.println( "\t\t" + formatter.format( "%-10s %-10s %-30s %-50s %-10s", ByteReader.read_u2( dis ), ByteReader.read_u2( dis ), constantPoolLookUp.lookUp( ByteReader.read_u2( dis ) ), constantPoolLookUp.lookUp( ByteReader.read_u2( dis ) ), ByteReader.read_u2( dis ) ) );
+            formatter.close();
         }
 
     }
@@ -109,42 +110,42 @@ public class AttributeReader
         int numberOfEntries = ByteReader.read_u2( dis );
         for ( int i = 0; i < numberOfEntries; i++ )
         {
-            int frame_type = ByteReader.read_u1( dis );
-            if ( frame_type >= 0 && frame_type <= 63 )
+            int frameType = ByteReader.read_u1( dis );
+            if ( frameType >= 0 && frameType <= 63 )
             {
                 System.out.println( "\t\tFrame Type:" + "SAME" );
             }
-            else if ( frame_type >= 64 && frame_type <= 127 )
+            else if ( frameType >= 64 && frameType <= 127 )
             {
                 System.out.println( "\t\tFrame Type:" + "SAME_LOCALS_1_STACK_ITEM" );
                 readVerificationInfoType();
             }
-            else if ( frame_type == 247 )
+            else if ( frameType == 247 )
             {
                 System.out.println( "\t\tFrame Type:" + "SAME_LOCALS_1_STACK_ITEM_EXTENDED" );
                 System.out.println( "\t\tOffset Delta: " + ByteReader.read_u2( dis ) );
                 readVerificationInfoType();
             }
-            else if ( frame_type >= 248 && frame_type <= 250 )
+            else if ( frameType >= 248 && frameType <= 250 )
             {
                 System.out.println( "\t\tFrame Type:" + "CHOP" );
                 System.out.println( "\t\tOffset Delta: " + ByteReader.read_u2( dis ) );
             }
-            else if ( frame_type == 251 )
+            else if ( frameType == 251 )
             {
                 System.out.println( "\t\tFrame Type:" + "SAME_FRAME_EXTENDED" );
                 System.out.println( "\t\tOffset Delta: " + ByteReader.read_u2( dis ) );
             }
-            else if ( frame_type >= 252 && frame_type <= 254 )
+            else if ( frameType >= 252 && frameType <= 254 )
             {
                 System.out.println( "\t\tFrame Type:" + "APPEND" );
                 System.out.println( "\t\tOffset Delta: " + ByteReader.read_u2( dis ) );
-                for ( int j = 0; j < ( frame_type - 251 ); j++ )
+                for ( int j = 0; j < ( frameType - 251 ); j++ )
                 {
                     readVerificationInfoType();
                 }
             }
-            else if ( frame_type == 255 )
+            else if ( frameType == 255 )
             {
                 System.out.println( "\t\tFrame Type:" + "FULL_FRAME" );
                 System.out.println( "\t\tOffset Delta: " + ByteReader.read_u2( dis ) );
@@ -226,12 +227,13 @@ public class AttributeReader
         {
             Formatter formatter = new Formatter();
             System.out.println( "\t\t" + formatter.format( "%-10s %-10s %-30s %-50s %-10s", "Start_PC", "Length", "Name", "Description", "Index" ) );
-
+            formatter.close();
         }
         for ( int i = 0; i < localVariableTableLength; i++ )
         {
             Formatter formatter = new Formatter();
             System.out.println( "\t\t" + formatter.format( "%-10s %-10s %-30s %-50s %-10s", ByteReader.read_u2( dis ), ByteReader.read_u2( dis ), constantPoolLookUp.lookUp( ByteReader.read_u2( dis ) ), constantPoolLookUp.lookUp( ByteReader.read_u2( dis ) ), ByteReader.read_u2( dis ) ) );
+            formatter.close();
         }
     }
 
@@ -242,12 +244,13 @@ public class AttributeReader
         {
             Formatter formatter = new Formatter();
             System.out.println( "\t\t" + formatter.format( "%-10s %-10s", "Start_PC", "LineNumber" ) );
-
+            formatter.close();
         }
         for ( int i = 0; i < lineNumberTableLength; i++ )
         {
             Formatter formatter = new Formatter();
             System.out.println( "\t\t" + formatter.format( "%-10s %-10s", ByteReader.read_u2( dis ), ByteReader.read_u2( dis ) ) );
+            formatter.close();
         }
 
     }
@@ -313,13 +316,14 @@ public class AttributeReader
         {
             Formatter formatter = new Formatter();
             System.out.println( "\t\t" + formatter.format( "%-10s %-10s %-10s %-10s", "Start_PC", "End_PC", "Handler_PC", "Catch_Type" ) );
-
+            formatter.close();
         }
         for ( int i = 0; i < exceptionTableLength; i++ )
         {
             int catchType = ByteReader.read_u2( dis );
             Formatter formatter = new Formatter();
             System.out.println( "\t\t" + formatter.format( "%-10s %-10s %-10s %-10s", ByteReader.read_u2( dis ), ByteReader.read_u2( dis ), ByteReader.read_u2( dis ), ( ( catchType > 0 ) ? constantPoolLookUp.lookUp( catchType ) : "any" ) ) );
+            formatter.close();
         }
     }
 

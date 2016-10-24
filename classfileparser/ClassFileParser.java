@@ -19,8 +19,6 @@ public class ClassFileParser
         try
         {
            
-            //readCompleteClass();
-
             filePath = args[0];
             
             if( !validateFile() )
@@ -61,12 +59,10 @@ public class ClassFileParser
         }
         catch ( FileNotFoundException e )
         {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         catch ( IOException e )
         {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
@@ -131,12 +127,12 @@ public class ClassFileParser
     private static void readInterfaces() throws Exception
     {
         int interfacesCount = ByteReader.read_u2( dis );
-        String interfaces = "";
+        StringBuilder interfaces = new StringBuilder( "" );
         for ( int i = 0; i < interfacesCount; i++ )
         {
-            interfaces += " " + constantPoolLookUp.lookUp( ByteReader.read_u2( dis ) );
+        	interfaces.append(" " + constantPoolLookUp.lookUp( ByteReader.read_u2( dis ) ) );
         }
-        System.out.println( "Interfaces Name:" + interfaces );
+        System.out.println( "Interfaces Name:" + interfaces.toString() );
     }
 
     private static void readSuperClass() throws Exception

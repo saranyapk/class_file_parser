@@ -21,7 +21,6 @@ public class ConstantPoolLookUp
 
         if ( cpValue == null )
         {
-            //throw new Exception( "There value is null for index:" + tag );
             System.out.println("unable to look up:" + tag);
             return "";
         }
@@ -41,11 +40,7 @@ public class ConstantPoolLookUp
         {
             return ( (Double)cpValue.value ).toString();
         }
-        else if ( cpValue.type.equals( ConstantPoolType.CONSTANT_String ) )
-        {
-            return lookUp( (Integer)cpValue.value );
-        }
-        else if ( cpValue.type.equals( ConstantPoolType.CONSTANT_Class ) )
+        else if ( cpValue.type.equals( ConstantPoolType.CONSTANT_String ) || cpValue.type.equals( ConstantPoolType.CONSTANT_Class ) )
         {
             return lookUp( (Integer)cpValue.value );
         }
